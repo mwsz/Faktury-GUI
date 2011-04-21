@@ -287,14 +287,14 @@ public class KontrahentGui extends javax.swing.JDialog {
         Kontrahent objKontrahent = new Kontrahent();
         objKontrahent.setSkrot(this.jTextFieldSkrot.getText());
         objKontrahent.setNazwa(this.jTextFieldNazwa.getText());
-        objKontrahent.setNip(this.jTextFieldMiejscowosc.getText());
+        objKontrahent.setNip(this.jTextFieldNip.getText());
         objKontrahent.setKod(this.jTextFieldKod.getText());
-        objKontrahent.setMiasto(this.jTextFieldUlica.getText());
-        objKontrahent.setUlica(this.jTextFieldNip.getText());
+        objKontrahent.setMiasto(this.jTextFieldMiejscowosc.getText());
+        objKontrahent.setUlica(this.jTextFieldUlica.getText());
         objKontrahent.setKonto(this.jTextFieldKonto.getText());
-        objKontrahent.setOsoba(this.jTextFieldTel.getText());
-        objKontrahent.setTel(this.jTextFieldEmail.getText());
-        objKontrahent.setEmail(this.jTextFieldOsoba.getText());
+        objKontrahent.setOsoba(this.jTextFieldOsoba.getText());
+        objKontrahent.setTel(this.jTextFieldTel.getText());
+        objKontrahent.setEmail(this.jTextFieldEmail.getText());
         if (idpress == 0) {
             objKontrahent.dodajKontrahenta();
         } else {
@@ -357,6 +357,16 @@ public class KontrahentGui extends javax.swing.JDialog {
 
         idpress = 0;
         jTextEditable(true);
+        this.jTextFieldSkrot.setText(null);
+        this.jTextFieldNazwa.setText(null);
+        this.jTextFieldMiejscowosc.setText(null);
+        this.jTextFieldKod.setText(null);
+        this.jTextFieldUlica.setText(null);
+        this.jTextFieldNip.setText(null);
+        this.jTextFieldKonto.setText(null);
+        this.jTextFieldTel.setText(null);
+        this.jTextFieldEmail.setText(null);
+        this.jTextFieldOsoba.setText(null);
         this.Nowy.setEnabled(false);
         this.Edytuj.setEnabled(false);
         this.Usun.setEnabled(false);
@@ -400,6 +410,17 @@ public class KontrahentGui extends javax.swing.JDialog {
         this.Edytuj.setEnabled(false);
         this.Usun.setEnabled(false);
         this.Zapisz.setEnabled(false);
+
+        this.jTextFieldSkrot.setText(null);
+        this.jTextFieldNazwa.setText(null);
+        this.jTextFieldMiejscowosc.setText(null);
+        this.jTextFieldKod.setText(null);
+        this.jTextFieldUlica.setText(null);
+        this.jTextFieldNip.setText(null);
+        this.jTextFieldKonto.setText(null);
+        this.jTextFieldTel.setText(null);
+        this.jTextFieldEmail.setText(null);
+        this.jTextFieldOsoba.setText(null);
 
     }
 
