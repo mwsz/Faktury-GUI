@@ -47,6 +47,8 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuUstawienia = new javax.swing.JMenu();
         jMenuItemDaneFirmy = new javax.swing.JMenuItem();
         jMenuItemKontrahenci = new javax.swing.JMenuItem();
+        jMenuItemStawkiVat = new javax.swing.JMenuItem();
+        jMenuItemJednostkiMiary = new javax.swing.JMenuItem();
         jMenuItemTowary = new javax.swing.JMenuItem();
         jMenuKoniec = new javax.swing.JMenu();
         jMenuItemZamknij = new javax.swing.JMenuItem();
@@ -57,6 +59,11 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuDokumenty.setText("Dokumenty");
 
         jMenuItemFaktura.setText("Faktura VAT");
+        jMenuItemFaktura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemFakturaActionPerformed(evt);
+            }
+        });
         jMenuDokumenty.add(jMenuItemFaktura);
 
         jMenuItemModyfikacjaFaktury.setText("Modyfikacja Faktury VAT");
@@ -98,6 +105,22 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jMenuUstawienia.add(jMenuItemKontrahenci);
+
+        jMenuItemStawkiVat.setText("Stawki Vat");
+        jMenuItemStawkiVat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemStawkiVatActionPerformed(evt);
+            }
+        });
+        jMenuUstawienia.add(jMenuItemStawkiVat);
+
+        jMenuItemJednostkiMiary.setText("Jednostki miary");
+        jMenuItemJednostkiMiary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemJednostkiMiaryActionPerformed(evt);
+            }
+        });
+        jMenuUstawienia.add(jMenuItemJednostkiMiary);
 
         jMenuItemTowary.setText("Towary i Usługi");
         jMenuItemTowary.addActionListener(new java.awt.event.ActionListener() {
@@ -147,10 +170,27 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemZamknijActionPerformed
 
     private void jMenuItemTowaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTowaryActionPerformed
+        TowarGui oknoTowarGui = new TowarGui(okno, true);
+        oknoTowarGui.setVisible(true);
     }//GEN-LAST:event_jMenuItemTowaryActionPerformed
 
     private void jMenuItemDaneFirmyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDaneFirmyActionPerformed
     }//GEN-LAST:event_jMenuItemDaneFirmyActionPerformed
+
+    private void jMenuItemStawkiVatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStawkiVatActionPerformed
+        StawkaVatGui oknoStawkaVatGui = new StawkaVatGui(okno, true);
+        oknoStawkaVatGui.setVisible(true);
+    }//GEN-LAST:event_jMenuItemStawkiVatActionPerformed
+
+    private void jMenuItemJednostkiMiaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJednostkiMiaryActionPerformed
+        JednostkaGui oknuJednostkaGui = new JednostkaGui(okno, true);
+        oknuJednostkaGui.setVisible(true);
+    }//GEN-LAST:event_jMenuItemJednostkiMiaryActionPerformed
+
+    private void jMenuItemFakturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFakturaActionPerformed
+        FakturaGui oknuFakturaGui = new FakturaGui(okno, true);
+        oknuFakturaGui.setVisible(true);
+    }//GEN-LAST:event_jMenuItemFakturaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,9 +209,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemDaneFirmy;
     private javax.swing.JMenuItem jMenuItemFaktura;
+    private javax.swing.JMenuItem jMenuItemJednostkiMiary;
     private javax.swing.JMenuItem jMenuItemKontrahenci;
     private javax.swing.JMenuItem jMenuItemModyfikacjaFaktury;
     private javax.swing.JMenuItem jMenuItemRejestrVat;
+    private javax.swing.JMenuItem jMenuItemStawkiVat;
     private javax.swing.JMenuItem jMenuItemTowary;
     private javax.swing.JMenuItem jMenuItemZamknij;
     private javax.swing.JMenuItem jMenuItemZestawienieSprz;
