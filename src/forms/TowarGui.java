@@ -25,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 public class TowarGui extends javax.swing.JDialog {
 
     private int idpress;
+    ArrayList<Jednostka> listaJednostek;
+    ArrayList<StawkaVat> listaStawekVat;
 
     /** Creates new form TowarGui */
     public TowarGui(java.awt.Frame parent, boolean modal) {
@@ -252,14 +254,19 @@ public class TowarGui extends javax.swing.JDialog {
 
     private void ZapiszActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZapiszActionPerformed
 
+        Jednostka selJedn;
+        StawkaVat selVat;
         Towar objTowar = new Towar();
         objTowar.setSkrot(this.jTextFieldSkrot.getText());
         objTowar.setNazwa(this.jTextFieldNazwa.getText());
         objTowar.setPkwiu(this.jTextFieldPkwiu.getText());
-        this.jComboBoxJednm.getSelectedItem();
 
-        objTowar.setJednm(1);
-//        objTowar.setVat(this.jTextFieldVat.getText());
+        selJedn = (Jednostka) this.jComboBoxJednm.getSelectedItem();
+        objTowar.setJednm(selJedn.getId());
+
+        selVat = (StawkaVat) this.jComboBoxVat.getSelectedItem();
+        objTowar.setVat(selVat.getId());
+
         objTowar.setCena_netto(Double.parseDouble(this.jTextFieldCenaNetto.getText()));
         objTowar.setCena_brutto(Double.parseDouble(this.jTextFieldCenaBrutto.getText()));
         if (idpress == 0) {
@@ -267,6 +274,9 @@ public class TowarGui extends javax.swing.JDialog {
         } else {
             objTowar.poprawTowar(idpress);
         }
+
+        this.jComboBoxJednm.removeAllItems();
+        this.jComboBoxVat.removeAllItems();
         ListaTowarow();
         
 }//GEN-LAST:event_ZapiszActionPerformed
@@ -304,6 +314,23 @@ public class TowarGui extends javax.swing.JDialog {
         this.jTextFieldPkwiu.setText(objTowar.getPkwiu());
         this.jTextFieldCenaNetto.setText(Double.toString(objTowar.getCena_netto()));
         this.jTextFieldCenaBrutto.setText(Double.toString(objTowar.getCena_brutto()));
+
+        Jednostka objJedn = new Jednostka();
+        objJedn.znajdzJednostke(objTowar.getJednm());
+       
+        for (Jednostka z : listaJednostek) {
+            if (objTowar.getJednm() == z.getId())
+                this.jComboBoxJednm.setSelectedItem(z);
+        }
+
+        StawkaVat objSta = new StawkaVat();
+        objSta.znajdzStawkeVat(objTowar.getVat());
+
+        for (StawkaVat y : listaStawekVat) {
+            if (objTowar.getVat() == y.getId())
+                this.jComboBoxVat.setSelectedItem(y);
+        }
+
 
         jTextEditable(false);
     }//GEN-LAST:event_jTable1MousePressed
@@ -352,7 +379,6 @@ public class TowarGui extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
 
         Jednostka objJednostka = new Jednostka();
-        ArrayList<Jednostka> listaJednostek = new ArrayList();
         listaJednostek = objJednostka.ListaJednostek();
 
         for (Jednostka z : listaJednostek) {
@@ -361,7 +387,6 @@ public class TowarGui extends javax.swing.JDialog {
         }
 
         StawkaVat objStawkaVat = new StawkaVat();
-        ArrayList<StawkaVat> listaStawekVat = new ArrayList();
         listaStawekVat = objStawkaVat.ListaStawekVat();
 
         for (StawkaVat y : listaStawekVat) {
