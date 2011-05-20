@@ -14,6 +14,7 @@ package forms;
 import beans.Jednostka;
 import beans.StawkaVat;
 import beans.Towar;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +136,11 @@ public class TowarGui extends javax.swing.JDialog {
         jTextFieldPkwiu.setEditable(false);
 
         jTextFieldCenaNetto.setEditable(false);
+        jTextFieldCenaNetto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldCenaNettoFocusLost(evt);
+            }
+        });
 
         Edytuj.setText("Edytuj");
         Edytuj.addActionListener(new java.awt.event.ActionListener() {
@@ -261,11 +267,16 @@ public class TowarGui extends javax.swing.JDialog {
         objTowar.setNazwa(this.jTextFieldNazwa.getText());
         objTowar.setPkwiu(this.jTextFieldPkwiu.getText());
 
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
+        nf.setGroupingUsed(false);
+
         selJedn = (Jednostka) this.jComboBoxJednm.getSelectedItem();
         objTowar.setJednm(selJedn.getId());
 
         selVat = (StawkaVat) this.jComboBoxVat.getSelectedItem();
-        objTowar.setVat(selVat.getId());
+        objTowar.setVat(selVat.getWartoscvat());
 
         objTowar.setCena_netto(Double.parseDouble(this.jTextFieldCenaNetto.getText()));
         objTowar.setCena_brutto(Double.parseDouble(this.jTextFieldCenaBrutto.getText()));
@@ -327,7 +338,7 @@ public class TowarGui extends javax.swing.JDialog {
         objSta.znajdzStawkeVat(objTowar.getVat());
 
         for (StawkaVat y : listaStawekVat) {
-            if (objTowar.getVat() == y.getId())
+            if (objTowar.getVat() == y.getWartoscvat())
                 this.jComboBoxVat.setSelectedItem(y);
         }
 
@@ -347,6 +358,20 @@ public class TowarGui extends javax.swing.JDialog {
     private void ZamknijActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZamknijActionPerformed
         this.dispose();
 }//GEN-LAST:event_ZamknijActionPerformed
+
+    private void jTextFieldCenaNettoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldCenaNettoFocusLost
+        StawkaVat selVat;
+        selVat = (StawkaVat) this.jComboBoxVat.getSelectedItem();
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(2);
+        nf.setGroupingUsed(false);
+
+        Double brutto = Double.parseDouble(this.jTextFieldCenaNetto.getText()) * (100 + selVat.getWartoscvat())/100;
+
+        this.jTextFieldCenaBrutto.setText(nf.format(brutto).replace(',', '.').toString());
+    }//GEN-LAST:event_jTextFieldCenaNettoFocusLost
 
     public void ListaTowarow() {
         DefaultTableModel table = new DefaultTableModel();
