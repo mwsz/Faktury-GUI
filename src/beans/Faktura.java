@@ -21,6 +21,9 @@ public class Faktura {
     private String data_sprzedazy;
     private String termin_platnosci;
     private String forma_platnosci;
+    private double wartosc_netto;
+    private double wartosc_vat;
+    private double wartosc_brutto;
     private int id_kontrahent;
     private ArrayList<Pozycja> lista_pozycji = new ArrayList();
 
@@ -97,6 +100,30 @@ public class Faktura {
         this.termin_platnosci = termin_platnosci;
     }
 
+    public double getWartosc_brutto() {
+        return wartosc_brutto;
+    }
+
+    public void setWartosc_brutto(double wartosc_brutto) {
+        this.wartosc_brutto = wartosc_brutto;
+    }
+
+    public double getWartosc_netto() {
+        return wartosc_netto;
+    }
+
+    public void setWartosc_netto(double wartosc_netto) {
+        this.wartosc_netto = wartosc_netto;
+    }
+
+    public double getWartosc_vat() {
+        return wartosc_vat;
+    }
+
+    public void setWartosc_vat(double wartosc_vat) {
+        this.wartosc_vat = wartosc_vat;
+    }
+
 
 
     public ArrayList<Faktura> ListaFaktur() {
@@ -116,6 +143,9 @@ public class Faktura {
                 objFaktura.setTermin_platnosci(table.getString("termin_platnosci"));
                 objFaktura.setForma_platnosci(table.getString("forma_platnosci"));
                 objFaktura.setId_kontrahent(table.getInt("kontrahent"));
+                objFaktura.setWartosc_netto(table.getDouble("wartosc_netto"));
+                objFaktura.setWartosc_vat(table.getDouble("wartosc_vat"));
+                objFaktura.setWartosc_brutto(table.getDouble("wartosc_brutto"));
                 Pozycja poz = new Pozycja();
                 objFaktura.setLista_pozycji(poz.ListPozycji(table.getInt("id")));
                 listaFaktur.add(objFaktura);
@@ -129,13 +159,16 @@ public class Faktura {
     public void dodajFakture() {
         try {
             FakturyDao objFakturyDao = new FakturyDao();
-            String zapytanie = "insert into faktura(nr, data_wystawienie, data_sprzedazy, kontrahent, forma_platnosci, termin_platnosci) values('"
+            String zapytanie = "insert into faktura(nr, data_wystawienie, data_sprzedazy, kontrahent, forma_platnosci, termin_platnosci, wartosc_netto, wartosc_vat, wartosc_brutto) values('"
                     + this.getNr() + "', '"
                     + this.getData_wystawienie() + "', '"
                     + this.getData_sprzedazy() + "', "
                     + this.getId_kontrahent() + ", '"
                     + this.getForma_platnosci() + "', '"
-                    + this.getTermin_platnosci() + "')";
+                    + this.getTermin_platnosci() + "', "
+                    + this.getWartosc_netto() + ", "
+                    + this.getWartosc_vat() + ", "
+                    + this.getWartosc_brutto() + ")";
             objFakturyDao.Wykonaj(zapytanie);
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());

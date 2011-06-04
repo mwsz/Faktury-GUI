@@ -2,6 +2,7 @@ package forms;
 
 import beans.*;
 import java.awt.Frame;
+import javax.swing.JOptionPane;
 
 /*
  * To change this template, choose Tools | Templates
@@ -47,17 +48,13 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuDokumenty = new javax.swing.JMenu();
         jMenuItemFaktura = new javax.swing.JMenuItem();
-        jMenuItemModyfikacjaFaktury = new javax.swing.JMenuItem();
         jMenuZestawienia = new javax.swing.JMenu();
         jMenuItemZestawienieSprz = new javax.swing.JMenuItem();
-        jMenuItemRejestrVat = new javax.swing.JMenuItem();
-        jMenuRozliczenia = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuUstawienia = new javax.swing.JMenu();
-        jMenuItemDaneFirmy = new javax.swing.JMenuItem();
         jMenuItemKontrahenci = new javax.swing.JMenuItem();
         jMenuItemStawkiVat = new javax.swing.JMenuItem();
         jMenuItemJednostkiMiary = new javax.swing.JMenuItem();
+        jMenuItemFormaPlatnosci = new javax.swing.JMenuItem();
         jMenuItemTowary = new javax.swing.JMenuItem();
         jMenuKoniec = new javax.swing.JMenu();
         jMenuItemOprogramie = new javax.swing.JMenuItem();
@@ -114,9 +111,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenuDokumenty.add(jMenuItemFaktura);
 
-        jMenuItemModyfikacjaFaktury.setText("Modyfikacja Faktury VAT");
-        jMenuDokumenty.add(jMenuItemModyfikacjaFaktury);
-
         jMenuBar1.add(jMenuDokumenty);
 
         jMenuZestawienia.setText("Zestawienia");
@@ -129,27 +123,9 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenuZestawienia.add(jMenuItemZestawienieSprz);
 
-        jMenuItemRejestrVat.setText("Rejestr sprzedaży VAT");
-        jMenuZestawienia.add(jMenuItemRejestrVat);
-
         jMenuBar1.add(jMenuZestawienia);
 
-        jMenuRozliczenia.setText("Rozliczenia");
-
-        jMenuItem6.setText("Rozliczenia");
-        jMenuRozliczenia.add(jMenuItem6);
-
-        jMenuBar1.add(jMenuRozliczenia);
-
         jMenuUstawienia.setText("Ustawienia");
-
-        jMenuItemDaneFirmy.setText("Dane firmy");
-        jMenuItemDaneFirmy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemDaneFirmyActionPerformed(evt);
-            }
-        });
-        jMenuUstawienia.add(jMenuItemDaneFirmy);
 
         jMenuItemKontrahenci.setText("Kontrahenci");
         jMenuItemKontrahenci.addActionListener(new java.awt.event.ActionListener() {
@@ -175,6 +151,14 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jMenuUstawienia.add(jMenuItemJednostkiMiary);
 
+        jMenuItemFormaPlatnosci.setText("Forma płatności");
+        jMenuItemFormaPlatnosci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemFormaPlatnosciActionPerformed(evt);
+            }
+        });
+        jMenuUstawienia.add(jMenuItemFormaPlatnosci);
+
         jMenuItemTowary.setText("Towary i Usługi");
         jMenuItemTowary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,7 +177,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItemZamknij.setText("Zakończ program");
         jMenuItemZamknij.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemZamknijActionPerformed1(evt);
+                jMenuItemZamknijActionPerformed(evt);
             }
         });
         jMenuKoniec.add(jMenuItemZamknij);
@@ -270,16 +254,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemKontrahenciActionPerformed
 
     private void jMenuItemZamknijActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemZamknijActionPerformed
-        System.exit(0);
+        int usun = JOptionPane.showConfirmDialog(null, "Czy na pewno zamknąć program?");
+        if (usun == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_jMenuItemZamknijActionPerformed
 
     private void jMenuItemTowaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTowaryActionPerformed
         TowarGui oknoTowarGui = new TowarGui(okno, true);
         oknoTowarGui.setVisible(true);
     }//GEN-LAST:event_jMenuItemTowaryActionPerformed
-
-    private void jMenuItemDaneFirmyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDaneFirmyActionPerformed
-    }//GEN-LAST:event_jMenuItemDaneFirmyActionPerformed
 
     private void jMenuItemStawkiVatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStawkiVatActionPerformed
         StawkaVatGui oknoStawkaVatGui = new StawkaVatGui(okno, true);
@@ -325,6 +309,11 @@ public class MainWindow extends javax.swing.JFrame {
         oknoZestawienieGui.setVisible(true);
     }//GEN-LAST:event_jMenuItemZestawienieSprzActionPerformed
 
+    private void jMenuItemFormaPlatnosciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFormaPlatnosciActionPerformed
+        FormaPlatnosciGui oknoFormaPlatnosciGui = new FormaPlatnosciGui(okno, true);
+        oknoFormaPlatnosciGui.setVisible(true);
+    }//GEN-LAST:event_jMenuItemFormaPlatnosciActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,20 +336,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDokumenty;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItemDaneFirmy;
     private javax.swing.JMenuItem jMenuItemFaktura;
+    private javax.swing.JMenuItem jMenuItemFormaPlatnosci;
     private javax.swing.JMenuItem jMenuItemJednostkiMiary;
     private javax.swing.JMenuItem jMenuItemKontrahenci;
-    private javax.swing.JMenuItem jMenuItemModyfikacjaFaktury;
     private javax.swing.JMenuItem jMenuItemOprogramie;
-    private javax.swing.JMenuItem jMenuItemRejestrVat;
     private javax.swing.JMenuItem jMenuItemStawkiVat;
     private javax.swing.JMenuItem jMenuItemTowary;
     private javax.swing.JMenuItem jMenuItemZamknij;
     private javax.swing.JMenuItem jMenuItemZestawienieSprz;
     private javax.swing.JMenu jMenuKoniec;
-    private javax.swing.JMenu jMenuRozliczenia;
     private javax.swing.JMenu jMenuUstawienia;
     private javax.swing.JMenu jMenuZestawienia;
     private javax.swing.JSeparator jSeparator1;

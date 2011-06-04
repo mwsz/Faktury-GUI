@@ -164,7 +164,9 @@ public class TowarListaGui extends javax.swing.JDialog {
         
         poz.setNazwa(tow.getNazwa());
         poz.setPkwiu(tow.getPkwiu());
+        poz.setJednm(String.valueOf(tow.getJednm()));
         poz.setIlosc(Double.parseDouble(this.jTextFieldIlosc.getText()));
+        poz.setVat_opis(String.valueOf(tow.getVat()));
 
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
@@ -172,10 +174,10 @@ public class TowarListaGui extends javax.swing.JDialog {
         nf.setGroupingUsed(false);
 
         poz.setCena_netto(tow.getCena_netto());
-        poz.setCena_brutto(tow.getCena_brutto());
-        poz.setVat(tow.getVat());
+        poz.setCena_brutto(tow.getCena_brutto());        
         poz.setWartosc_netto(Double.parseDouble((nf.format(tow.getCena_netto()*poz.getIlosc())).replaceAll(",", ".")));
         poz.setWartosc_brutto(Double.parseDouble((nf.format(tow.getCena_netto()*poz.getIlosc()*(100 + tow.getVat())/100)).replaceAll(",", ".")));
+        poz.setVat(poz.getWartosc_brutto() - poz.getWartosc_netto());
 
         this.fak.dodajPozycje(poz);
         this.fakgui.ListaPozycji();

@@ -13,7 +13,6 @@ package forms;
 
 import beans.Faktura;
 import beans.Kontrahent;
-import beans.Pozycja;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -43,6 +42,7 @@ public class ZestawienieGui extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButtonZamknij = new javax.swing.JButton();
+        jLabel1Razem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Zestawienie sprzedaży");
@@ -67,6 +67,9 @@ public class ZestawienieGui extends javax.swing.JDialog {
             }
         });
 
+        jLabel1Razem.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1Razem.setText("Razem sprzedaż: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,7 +78,8 @@ public class ZestawienieGui extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
-                    .addComponent(jButtonZamknij, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButtonZamknij, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1Razem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -83,7 +87,9 @@ public class ZestawienieGui extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1Razem)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jButtonZamknij)
                 .addContainerGap())
         );
@@ -115,6 +121,7 @@ public class ZestawienieGui extends javax.swing.JDialog {
         nf.setMinimumFractionDigits(2);
 
         int i = 0;
+        double razem = 0.0;
 
         for (Faktura x : listaFaktur) {
             table.setValueAt(x.getId(), i, 0);
@@ -126,24 +133,28 @@ public class ZestawienieGui extends javax.swing.JDialog {
             table.setValueAt(x.getNr(), i, 2);
             table.setValueAt(x.getData_wystawienie(), i, 3);
 
-            ArrayList<Pozycja> lista = new ArrayList();
-            lista = x.getLista_pozycji();
+            //ArrayList<Pozycja> lista = new ArrayList();
+            //lista = x.getLista_pozycji();
 
-            double netto = 0.0;
-            double vat = 0.0;
-            double brutto = 0.0;
+            //double netto = 0.0;
+            //double vat = 0.0;
+            //double brutto = 0.0;
 
-            for (Pozycja y : lista) {
-            netto = netto + y.getWartosc_netto();
-            vat = vat + y.getVat();
-            brutto = brutto + y.getWartosc_brutto();
-            }
+            //for (Pozycja y : lista) {
+            //netto = netto + y.getWartosc_netto();
+           // vat = vat + y.getVat();
+            //brutto = brutto + y.getWartosc_brutto();
+            //}
 
-            table.setValueAt(nf.format(netto), i, 4);
-            table.setValueAt(nf.format(vat), i, 5);
-            table.setValueAt(nf.format(brutto), i, 6);
+            table.setValueAt(nf.format(x.getWartosc_netto()), i, 4);
+            table.setValueAt(nf.format(x.getWartosc_vat()), i, 5);
+            table.setValueAt(nf.format(x.getWartosc_brutto()), i, 6);
+            razem = razem + x.getWartosc_brutto();
             i++;
         }
+
+        nf.setGroupingUsed(true);
+        this.jLabel1Razem.setText("Razem sprzedaż: " + nf.format(razem).toString() + " zł");
 
         this.jTable1.setModel(table);
         jTable1.getColumnModel().getColumn(0).setMinWidth(0);
@@ -171,6 +182,7 @@ public class ZestawienieGui extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonZamknij;
+    private javax.swing.JLabel jLabel1Razem;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -12,10 +12,15 @@
 package forms;
 
 import beans.Faktura;
+import beans.FormaPlatnosci;
+import beans.Jednostka;
 import beans.Pozycja;
 import java.awt.Frame;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,11 +34,14 @@ public class FakturaGui extends javax.swing.JDialog {
     Faktura faktura = new Faktura();
     private int rec = -1;
 
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+
     /** Creates new form FakturaGui */
     public FakturaGui(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         ListaPozycji();
+        TerminPlatnosci();
         
 
     }
@@ -52,7 +60,7 @@ public class FakturaGui extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jTextFieldDatawystawienia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxTerminPlatnosci = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldDataplatnosci = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -81,6 +89,12 @@ public class FakturaGui extends javax.swing.JDialog {
         jLabel2.setText("Data wystawienia");
 
         jLabel3.setText("Termin płatności");
+
+        jComboBoxTerminPlatnosci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxTerminPlatnosciActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Data płatności");
 
@@ -177,7 +191,7 @@ public class FakturaGui extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabelRazem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelRazem.setFont(new java.awt.Font("Tahoma", 1, 14));
         jLabelRazem.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelRazem.setText("Razem do zapłaty: 0,00 zł");
 
@@ -195,7 +209,7 @@ public class FakturaGui extends javax.swing.JDialog {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxTerminPlatnosci, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -260,7 +274,7 @@ public class FakturaGui extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(70, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxTerminPlatnosci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,15 +310,22 @@ public class FakturaGui extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonDodajActionPerformed
 
     private void jButtonAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnulujActionPerformed
-         this.dispose();
+        int usun = JOptionPane.showConfirmDialog(null, "Czy na pewno anulować wystawianie faktury?");
+        if (usun == 0) {
+            this.dispose();
+        }      
+
     }//GEN-LAST:event_jButtonAnulujActionPerformed
 
     private void jButtonZapiszActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonZapiszActionPerformed
+        FormaPlatnosci selFormaPlatnosci;
+        selFormaPlatnosci = (FormaPlatnosci) this.jComboBoxTerminPlatnosci.getSelectedItem();
+
         this.faktura.setNr(this.jTextFieldNr.getText());
         this.faktura.setData_wystawienie(this.jTextFieldDatawystawienia.getText());
         this.faktura.setData_sprzedazy(this.jTextFieldDatasprzedazy.getText());
         this.faktura.setTermin_platnosci(this.jTextFieldDataplatnosci.getText());
-        this.faktura.setForma_platnosci("1");
+        this.faktura.setForma_platnosci(selFormaPlatnosci.getOpis());
         this.faktura.dodajFakture();
         this.dispose();
     }//GEN-LAST:event_jButtonZapiszActionPerformed
@@ -332,6 +353,32 @@ public class FakturaGui extends javax.swing.JDialog {
         rec = this.jTable1.getSelectedRow();        
     }//GEN-LAST:event_jTable1MousePressed
 
+
+    private void jComboBoxTerminPlatnosciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTerminPlatnosciActionPerformed
+        FormaPlatnosci selFormaPlatnosci;
+        selFormaPlatnosci = (FormaPlatnosci) this.jComboBoxTerminPlatnosci.getSelectedItem();
+
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DAY_OF_MONTH, selFormaPlatnosci.getIlosc_dni());
+        this.jTextFieldDataplatnosci.setText(f.format(date.getTime()));
+    }//GEN-LAST:event_jComboBoxTerminPlatnosciActionPerformed
+
+    public void TerminPlatnosci() {
+
+        ArrayList<FormaPlatnosci> listaFormPlatnosci;
+        FormaPlatnosci objFormaPlatnosci = new FormaPlatnosci();
+        listaFormPlatnosci = objFormaPlatnosci.ListaFormaPlatnosci();
+
+        for (FormaPlatnosci y : listaFormPlatnosci) {
+            this.jComboBoxTerminPlatnosci.addItem(y);
+        }
+
+        Calendar date = Calendar.getInstance();
+        this.jTextFieldDatawystawienia.setText(f.format(date.getTime()));
+        this.jTextFieldDatasprzedazy.setText(f.format(date.getTime()));
+    }
+
+
     public void ListaPozycji() {
         DefaultTableModel table = new DefaultTableModel();
         ArrayList<Pozycja> lista = new ArrayList();
@@ -354,21 +401,33 @@ public class FakturaGui extends javax.swing.JDialog {
 
         table.setRowCount(lista.size());
 
+        double n = 0.0;
+        double v = 0.0;
         double razem = 0.0;
         int i = 0;
         for (Pozycja x : lista) {
             table.setValueAt(x.getId(), i, 0);
             table.setValueAt(x.getNazwa(), i, 1);
             table.setValueAt(nf.format(x.getIlosc()), i, 2);
-            table.setValueAt(x.getJednm(), i, 3);
+
+            Jednostka objJedn = new Jednostka();
+            objJedn.znajdzJednostke(Integer.parseInt(x.getJednm()));
+
+            table.setValueAt(objJedn.getJednostka_m(), i, 3);
             table.setValueAt(nf.format(x.getCena_brutto()), i, 4);
             table.setValueAt(nf.format(x.getVat()), i, 5);
             table.setValueAt(nf.format(x.getWartosc_netto()), i, 6);
             table.setValueAt(nf.format(x.getWartosc_brutto() - x.getWartosc_netto()), i, 7);
             table.setValueAt(nf.format(x.getWartosc_brutto()), i, 8);
+            n = n + x.getWartosc_netto();
+            v = v + x.getVat();
             razem = razem + x.getWartosc_brutto();
             i++;
         }
+
+        this.faktura.setWartosc_netto(n);
+        this.faktura.setWartosc_vat(v);
+        this.faktura.setWartosc_brutto(razem);
 
         nf.setGroupingUsed(true);
         this.jLabelRazem.setText("Razem do zapłaty: " + nf.format(razem).toString() + " zł");
@@ -378,7 +437,7 @@ public class FakturaGui extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
 
-        this.jButtonUsun.setEnabled(false);
+        this.jButtonUsun.setEnabled(false); 
     }
 
     public void ustawNazweKontrahenta(String nazwa, String adres, String ulica) {
@@ -411,7 +470,7 @@ public class FakturaGui extends javax.swing.JDialog {
     private javax.swing.JButton jButtonWybierzKontrahenta;
     private javax.swing.JButton jButtonZapisz;
     private javax.swing.JButton jButtonZapiszDrukuj;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxTerminPlatnosci;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

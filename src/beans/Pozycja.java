@@ -141,6 +141,7 @@ public class Pozycja {
                 objPozycja.setPkwiu(table.getString("pkwiu"));
                 objPozycja.setJednm(table.getString("jednm"));
                 objPozycja.setIlosc(table.getDouble("ilosc"));
+                objPozycja.setVat_opis(table.getString("vat_opis"));
                 objPozycja.setCena_netto(table.getDouble("cena_netto"));
                 objPozycja.setCena_brutto(table.getDouble("cena_brutto"));
                 objPozycja.setVat(table.getDouble("vat"));
@@ -158,11 +159,12 @@ public class Pozycja {
     public void dodajPozycje() {
         try {
             FakturyDao objFakturyDao = new FakturyDao();
-            String zapytanie = "insert into pozycja(faktura, nazwa, pkwiu, jednm, cena_netto, vat, cena_brutto, ilosc, wartosc_netto, wartosc_brutto) values("
+            String zapytanie = "insert into pozycja(faktura, nazwa, pkwiu, jednm, vat_opis, cena_netto, vat, cena_brutto, ilosc, wartosc_netto, wartosc_brutto) values("
                     + this.getId_faktury() + ", '"
                     + this.getNazwa() + "', '"
                     + this.getPkwiu() + "', '"
-                    + this.getJednm() + "', "
+                    + this.getJednm() + "', '"
+                    + this.getVat_opis() + "', "
                     + this.getCena_netto() + ", "
                     + this.getVat() + ", "
                     + this.getCena_brutto() + ", "
